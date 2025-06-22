@@ -165,7 +165,7 @@
             ts_y = touch.pageY;
         }, false);
 
-      paper.addEventListener('touchend', function(e) {
+      paper.addEventListener('touchmove', function(e) {
         // grab the location of touch
         e.preventDefault();
         var touch = e.changedTouches[0];
@@ -177,25 +177,7 @@
 
         let elementoLeft = paper.getBoundingClientRect().left;
         let elementoTop = paper.getBoundingClientRect().top;
-        if( Math.abs( td_x ) > Math.abs( td_y ) ) {
-            // é horizontal
-            if( td_x < 0 ) {
-                // é para esquerda
-                paper.style.transform = `translateX(${elementoLeft - 0.1}px) translateY(${elementoTop}px)`;
-            } else {
-                // direita
-                paper.style.transform = `translateX(${elementoLeft + 0.1}px) translateY(${elementoLeft}px)`;
-            }
-        } else {
-            // é vertical
-            if( td_y < 0 ) {
-                // cima
-                paper.style.transform = `translateX(${elementoLeft}px) translateY(${elementoTop - 0.1}px)`;
-            } else {
-                // baixo
-                paper.style.transform = `translateX(${elementoLeft}px) translateY(${elementoTop + 0.1}px)`;
-            }
-        }
+        paper.style.transform = `translateX(${td_x}px) translateY(${td_y}px)`;
 
 
             //console.log(posX);
