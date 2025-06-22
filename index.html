@@ -234,33 +234,27 @@ style="width: 200px; display: flex;
     <script>
         let highestZ = 1;
     class Paper {
-    holdingPaper = false;
-    mouseTouchX = 0;
-    mouseTouchY = 0;
-    mouseX = 0;
-    mouseY = 0;
-    prevMouseX = 0;
-    prevMouseY = 0;
-    velX = 0;
-    velY = 0;
-    rotation = Math.random() * 30 - 15;
-    currentPaperX = 0;
-    currentPaperY = 0;
-    rotating = false;
     init(paper) {
-        paper.addEventListener('touchmove', (e) => {
-          if(!this.rotating) {
-              this.mouseX = e.clientX;
-              this.mouseY = e.clientY;
-              this.velX = this.mouseX - this.prevMouseX;
-              this.velY = this.mouseY - this.prevMouseY;
-          }
-          var touchLocation = e.targetTouches[0];
-
-          this.style.left = touchLocation.pageX + 'px';
-          this.style.top = touchLocation.pageY + 'px';
+      paper.addEventListener('touchmove', function(e) {
+        // grab the location of touch
+        var touchLocation = e.targetTouches[0];
         
-        })
+        // assign box new coordinates based on the touch.
+        box.style.left = touchLocation.pageX + 'px';
+        box.style.top = touchLocation.pageY + 'px';
+      })
+
+      /* record the position of the touch
+      when released using touchend event.
+      This will be the drop position. */
+      
+      box.addEventListener('touchend', function(e) {
+        // current box position.
+        var x = parseInt(box.style.left);
+        var y = parseInt(box.style.top);
+      })
+        
+    }
 
         /*
         paper.addEventListener('touchstart', (e) => {
@@ -279,15 +273,8 @@ style="width: 200px; display: flex;
         }
         });
         */
-
-        paper.addEventListener('touchend', function(e) {
-          var x = parseInt(paper.style.left);
-          var y = parseInt(paper.style.top);
-        });
     }
 
-
-    }
     const papers = Array.from(document.querySelectorAll('.paper'));
     papers.forEach(paper => {
     const p = new Paper();
