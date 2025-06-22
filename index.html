@@ -5,41 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #meuDiv {
-            width: 300px;
-            height: 200px;
-            background-color: red;
-        }
+        #box {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+}
     </style>
 </head>
 <body>
 
-    <div id="meuDiv"></div>
+    <div id="container">
+        <p>Toggle your browser device toolbar and change device to any mobile or tablet from your browser inspect.</p>
+        <div id="box"></div>
+      </div>
     
 
     <script>
-        let elementoArrastavel = document.getElementById('meuDiv');
-let deslocamentoX = 0;
-let deslocamentoY = 0;
-let estaArrastando = false;
-
-elementoArrastavel.addEventListener('touchstart', (e) => {
-  estaArrastando = true;
-  deslocamentoX = e.touches[0].clientX - elementoArrastavel.offsetLeft;
-  deslocamentoY = e.touches[0].clientY - elementoArrastavel.offsetTop;
-});
-
-elementoArrastavel.addEventListener('touchmove', (e) => {
-  if (estaArrastando) {
-    e.preventDefault(); // Evita rolagem da página
-    elementoArrastavel.style.left = (e.touches[0].clientX - deslocamentoX) + 'px';
-    elementoArrastavel.style.top = (e.touches[0].clientY - deslocamentoY) + 'px';
-  }
-});
-
-elementoArrastavel.addEventListener('touchend', () => {
-  estaArrastando = false;
-});
+        window.onload = function() {
+  // find the element that you want to drag.
+  var box = document.getElementById('box');
+  
+  /* listen to the touchMove event,
+  every time it fires, grab the location
+  of touch and assign it to box */
+  
+  box.addEventListener('touchmove', function(e) {
+    // grab the location of touch
+    var touchLocation = e.targetTouches[0];
+    
+    // assign box new coordinates based on the touch.
+    box.style.left = touchLocation.pageX + 'px';
+    box.style.top = touchLocation.pageY + 'px';
+  })
+  
+  /* record the position of the touch
+  when released using touchend event.
+  This will be the drop position. */
+  
+  box.addEventListener('touchend', function(e) {
+    // current box position.
+    var x = parseInt(box.style.left);
+    var y = parseInt(box.style.top);
+  })
+  
+}
     </script>
 </body>
 </html>
