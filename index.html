@@ -252,6 +252,9 @@ style="width: 200px; display: flex;
         // current box position.
         var x = parseInt(paper.style.left);
         var y = parseInt(paper.style.top);
+
+        paper.style.zIndex = highestZ;
+        highestZ += 1;
       })
         
     }
