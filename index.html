@@ -155,10 +155,52 @@
         let highestZ = 1;
     class Paper {
     init(paper) {
-      paper.addEventListener('touchmove', function(e) {
+        let ts_x;
+        let ts_y;
+        paper.addEventListener('touchstart', function(e) {
+
+            e.preventDefault();
+            var touch = e.changedTouches[0];
+            ts_x = touch.pageX;
+            ts_y = touch.pageY;
+        }, false);
+
+      paper.addEventListener('touchend', function(e) {
         // grab the location of touch
-        var touchLocation = e.targetTouches[0];
-        this.holdingPaper = true;
+        e.preventDefault();
+        var touch = e.changedTouches[0];
+        let td_x = touch.pageX - ts_x; // deslocamento na horizontal
+        let td_y = touch.pageY - ts_y; // deslocamento na vertical
+        // O movimento principal foi vertical ou horizontal?
+
+
+
+        let elementoLeft = paper.getBoundingClientRect().left;
+        let elementoTop = paper.getBoundingClientRect().top;
+        if( Math.abs( td_x ) > Math.abs( td_y ) ) {
+            // é horizontal
+            if( td_x < 0 ) {
+                // é para esquerda
+                paper.style.transform = `translateX(${elementoLeft - 0.1}px) translateY(${elementoTop}px)`;
+            } else {
+                // direita
+                paper.style.transform = `translateX(${elementoLeft + 0.1}px) translateY(${elementoLeft}px)`;
+            }
+        } else {
+            // é vertical
+            if( td_y < 0 ) {
+                // cima
+                paper.style.transform = `translateX(${elementoLeft}px) translateY(${elementoTop - 0.1}px)`;
+            } else {
+                // baixo
+                paper.style.transform = `translateX(${elementoLeft}px) translateY(${elementoTop + 0.1}px)`;
+            }
+        }
+
+
+            //console.log(posX);
+            //console.log(posY);
+            
         
         // assign box new coordinates based on the touch.
 
@@ -193,21 +235,7 @@
           this.prevTouchY = this.touchY;
           */
 
-            let elementoLeft = paper.getBoundingClientRect().left;
-            let elementoTop = paper.getBoundingClientRect().top;
-
-            console.log(`elemento left: ${elementoLeft}`)
-            console.log(`elemento top: ${elementoTop}`)
-
-            console.log(`touch top: ${touchLocation.pageX}`)
-            console.log(`touch left: ${touchLocation.pageY}`)
             
-            let posX = touchLocation.pageX;
-            let posY = touchLocation.pageY;
-
-            //console.log(posX);
-            //console.log(posY);
-            paper.style.transform = `translateX(${posX - 150}px) translateY(${posY - 250}px)`;
         }
       })
 
