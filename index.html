@@ -149,19 +149,6 @@
     <script>
         let highestZ = 1;
     class Paper {
-      holdingPaper = false;
-      fingerTouchX = 0;
-      fingerTouchY = 0;
-      touchX = 0;
-      touchY = 0;
-      prevTouchX = 0;
-      prevTouchY = 0;
-      velX = 0;
-      velY = 0;
-      rotation = Math.random() * 30 - 15;
-      currentPaperX = 0;
-      currentPaperY = 0;
-      rotating = false;
     init(paper) {
       paper.addEventListener('touchmove', function(e) {
         // grab the location of touch
@@ -201,34 +188,23 @@
           this.prevTouchY = this.touchY;
           */
 
-          console.log(`translateX(${touchLocation.pageX}px) translateY(${touchLocation.pageY}px)`);
-          paper.style.transform = `translateX(${touchLocation.pageX}px) translateY(${touchLocation.pageY}px)`;
+            let elementoLeft = paper.getBoundingClientRect().left;
+            let elementoTop = paper.getBoundingClientRect().top;
+
+            console.log(`elemento left: ${elementoLeft}`)
+            console.log(`elemento top: ${elementoTop}`)
+
+            console.log(`touch top: ${touchLocation.pageX}`)
+            console.log(`touch left: ${touchLocation.pageY}`)
+            
+            let posX = touchLocation.pageX;
+            let posY = touchLocation.pageY;
+
+            //console.log(posX);
+            //console.log(posY);
+            paper.style.transform = `translateX(${posX - 150}px) translateY(${posY - 250}px)`;
         }
       })
-
-      paper.addEventListener('touchstart', (e) => {
-        
-      
-        if(this.holdingPaper) return;
-        this.holdingPaper = true;
-        paper.style.zIndex = highestZ;
-        highestZ += 1;
-
-        for (const touch of e.targetTouches) {
-          if (touch.target.parentElement != undefined) {
-            this.fingerTouchX = this.touchX;
-            this.fingerTouchY = this.touchY;
-            this.prevtouchX = this.touchX;
-            this.prevtouchY = this.touchY;
-          }
-        }
-
-        console.log("left");
-        console.log(paper.style.left)
-
-        paper.style.left = this.prevTouchX + "px";
-        paper.style.top = this.prevTouchY + "px";
-    });
 
       /* record the position of the touch
       when released using touchend event.
@@ -238,10 +214,6 @@
         // current box position.
         var x = parseInt(paper.style.left);
         var y = parseInt(paper.style.top);
-
-        paper.style.zIndex = highestZ;
-        highestZ += 1;
-        this.holdingPaper = false;
       })
         
     }
@@ -271,38 +243,8 @@
     p.init(paper);
     });
 
-    let verificar = document.querySelector("#verificar");
     
-    
-
-    verificar.addEventListener("click", (e) => {
-        let nome = document.querySelector("#name");
-        let sobrenome = document.querySelector("#sobrenome");
-
-        let nomeMatch = "michelly";
-        let sobrenomeMatch = "aparecida dos santos spindola"
-
-        if (nome.value == undefined && sobrenome.value == undefined) {
-            alert("Erro ao verificar nome");
-        } else if (nome.value == "" && sobrenome.value == "") {
-            alert("Por favor, preencha o nome e o sobrenome");
-        } else if (nome.value == "") {
-            alert("Por favor, preencha o campo nome");
-        } else if (sobrenome.value == "") {
-            alert("Por favor, preencha o campo sobrenome");
-        } else if (nome.value.toLowerCase() == nomeMatch && sobrenome.value.toLowerCase() == sobrenomeMatch ) {
-            let menu = document.querySelector("#menu");
-            let principal = document.querySelector("#principal");
-
-            menu.className = "hidden";
-            principal.className = "";
-        } else {
-            alert("Voce não tem permissão para visualizar");
-        }
         
-
-        
-    })
 
 
     </script>
