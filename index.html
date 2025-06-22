@@ -248,7 +248,7 @@ style="width: 200px; display: flex;
     currentPaperY = 0;
     rotating = false;
     init(paper) {
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener('touchmove', (e) => {
         if(!this.rotating) {
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
@@ -276,7 +276,7 @@ style="width: 200px; display: flex;
             paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
         }
         })
-        paper.addEventListener('mousedown', (e) => {
+        paper.addEventListener('touchstart', (e) => {
         if(this.holdingPaper) return;
         this.holdingPaper = true;
         paper.style.zIndex = highestZ;
@@ -291,7 +291,7 @@ style="width: 200px; display: flex;
             this.rotating = true;
         }
         });
-        window.addEventListener('mouseup', () => {
+        window.addEventListener('touchend', () => {
         this.holdingPaper = false;
         this.rotating = false;
         });
