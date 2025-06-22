@@ -7,9 +7,12 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
 
+    body {
+      max-height: 100vh;
+    }
 
     body #principal{
-  height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,6 +156,7 @@ p {
   user-select: none;
   
 }
+
   </style>
 </head>
 <body>
@@ -234,15 +238,86 @@ style="width: 200px; display: flex;
     <script>
         let highestZ = 1;
     class Paper {
+      holdingPaper = false;
+      fingerTouchX = 0;
+      fingerTouchY = 0;
+      touchX = 0;
+      touchY = 0;
+      prevTouchX = 0;
+      prevTouchY = 0;
+      velX = 0;
+      velY = 0;
+      rotation = Math.random() * 30 - 15;
+      currentPaperX = 0;
+      currentPaperY = 0;
+      rotating = false;
     init(paper) {
       paper.addEventListener('touchmove', function(e) {
         // grab the location of touch
         var touchLocation = e.targetTouches[0];
+        this.holdingPaper = true;
         
         // assign box new coordinates based on the touch.
-        paper.style.left = touchLocation.pageX + 'px';
-        paper.style.top = touchLocation.pageY + 'px';
+
+        /*
+        if(!this.rotating) {
+          this.touchX = touchLocation.pageX;
+          this.touchY = touchLocation.pageX;
+          this.velX = this.touchX - this.prevTouchX;
+          this.velY = this.touchY - this.prevTouchY;
+        }
+
+        const dirX = e.clientX - this.touchX;
+        const dirY = e.clientY - this.touchY;
+        const dirLength = Math.sqrt(dirX*dirX+dirY*dirY);
+        const dirNormalizedX = dirX / dirLength;
+        const dirNormalizedY = dirY / dirLength;
+        const angle = Math.atan2(dirNormalizedY, dirNormalizedX);
+        let degrees = 180 * angle / Math.PI;
+        degrees = (360 + Math.round(degrees)) % 360;
+        */Paper/*
+        if(this.rotating) {
+          this.rotation = degrees;
+        }
+          */
+
+        if(this.holdingPaper) {
+          /*if(!this.rotating) {
+            this.currentPaperX += this.velX;
+            this.currentPaperY += this.velY;
+          }
+          this.prevTouchX = this.touchX;
+          this.prevTouchY = this.touchY;
+          */
+
+          console.log(`translateX(${touchLocation.pageX}px) translateY(${touchLocation.pageY}px)`);
+          paper.style.transform = `translateX(${touchLocation.pageX}px) translateY(${touchLocation.pageY}px)`;
+        }
       })
+
+      paper.addEventListener('touchstart', (e) => {
+        
+      
+        if(this.holdingPaper) return;
+        this.holdingPaper = true;
+        paper.style.zIndex = highestZ;
+        highestZ += 1;
+
+        for (const touch of e.targetTouches) {
+          if (touch.target.parentElement != undefined) {
+            this.fingerTouchX = this.touchX;
+            this.fingerTouchY = this.touchY;
+            this.prevtouchX = this.touchX;
+            this.prevtouchY = this.touchY;
+          }
+        }
+
+        console.log("left");
+        console.log(paper.style.left)
+
+        paper.style.left = this.prevTouchX + "px";
+        paper.style.top = this.prevTouchY + "px";
+    });
 
       /* record the position of the touch
       when released using touchend event.
@@ -255,6 +330,7 @@ style="width: 200px; display: flex;
 
         paper.style.zIndex = highestZ;
         highestZ += 1;
+        this.holdingPaper = false;
       })
         
     }
@@ -316,6 +392,7 @@ style="width: 200px; display: flex;
 
         
     })
+
 
     </script>
 </body>
